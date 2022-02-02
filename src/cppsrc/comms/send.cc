@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 
 pin_t pinopen(int pin, int mode)
 {
-        char*   pinfn = malloc(1024);
+        char*   pinfn = (char *) malloc(1024);
         char    dirfn[1024];
         FILE*   dir = NULL;
         FILE*   fp = fopen("/sys/class/gpio/export", "w");
@@ -84,7 +84,7 @@ void pinclose(pin_t pin)
 void pinwrite(pin_t pin, int value)
 {
         FILE*   fp = fopen(pin.fn, "w");
-        if (value == LOW) {
+        if (value == LOW) {`
                 fprintf(fp, "0");
         } else {
                 fprintf(fp, "1");
@@ -104,3 +104,4 @@ int pinread(pin_t pin)
                 return (buf[0] == '1') ? HIGH : LOW;
         }
 }
+
