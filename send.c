@@ -21,12 +21,16 @@ static int pinread(pin_t pin);
 
 int main(int argc, char** argv)
 {
-        int time = 0;
+        int time = 10;
 
         if (argc > 1) {
           time = atoi(argv[1]);
         }
 
+	/*
+	int gpios[] = {5, 6, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
+
+	
         pin_t gpio04 = pinopen(4, OUTPUT); 
         pin_t gpio17 = pinopen(17, OUTPUT);
         pin_t gpio27 = pinopen(27, OUTPUT);
@@ -48,7 +52,42 @@ int main(int argc, char** argv)
             pinwrite(pins[i], LOW);
         }
 
-        return 0;
+	for(int i = 0; i < 16; ++i) {
+		pin_t gpio = pinopen(gpios[i], OUTPUT);
+		printf("write to %d\n", gpios[i]);
+		pinwrite(gpio, LOW);
+	}
+
+	sleep(10);
+	printf("going low\n");
+
+	for(int i = 0; i < 16; ++i) {
+		pin_t gpio = pinopen(gpios[i], OUTPUT);
+		pinwrite(gpio, HIGH);
+	}
+
+
+	sleep(10);
+	*/
+
+	pin_t pin1  = pinopen(17, OUTPUT);
+	pin_t pin2  = pinopen(4, OUTPUT);
+	pin_t pin3  = pinopen(27, OUTPUT);
+	pin_t pin4  = pinopen(24, OUTPUT);
+	pin_t pin7  = pinopen(18, OUTPUT);
+	pin_t pin8  = pinopen(25, OUTPUT);
+	pin_t pin9  = pinopen(22, OUTPUT);
+	pin_t pin10 = pinopen(23, OUTPUT);
+
+	pin_t pins[8] = {pin1, pin2, pin3, pin4, pin7, pin8, pin9, pin10};
+
+	for (int i = 0; i < 256; ++i) {
+		for (int j = 0; j < 8; ++j) {
+			pinwrite(pins[j], (((i >> j) % 2) == 1) ? HIGH : LOW);
+		}
+		sleep(1);
+	}
+	return 0;
 }
 
 pin_t pinopen(int pin, int mode)
